@@ -1,0 +1,18 @@
+Esta es una prueba de concepto para probar:
+
+- Conexión a Elasticsearch desde JS: anda contra una VM y contra la nube de Elastic (con credenciales).
+- El archivo/app bulkload.js carga en Elasticsearch (el lugar lo determina el archivo connection.js)
+el archivo JSON que tenga hardcodeado. 
+- Mostrar mapas. Anda con el gestor de mapas Leaflet (https://leafletjs.com/) y 
+los mapas de Mapbox/OpenStreet (la clave está en el código)
+accessToken: "pk.eyJ1IjoiY2xhdWRpb2dyYXNzbyIsImEiOiJjazc5ZDlwcXYwM2JiM2dwaWgzNTZ6NXJpIn0.NRB7GBd52t6hrJfY1sygwQ"
+        }
+
+Para correr el servidor:
+
+     node app.js
+
+Para correr el que insterta registros:
+
+    node bulkload.js
+

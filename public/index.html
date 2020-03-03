@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
+    integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+    crossorigin="" />
+  <!-- Make sure you put this AFTER Leaflet's CSS -->
+  <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
+    integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
+    crossorigin=""></script>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+  <title>Search Trips</title>
+</head>
+
+<body>
+  <h1>Search Trips</h1>
+
+  <form class="clearfix mb-4" action="POST">
+    <div class="form-group">
+      <label for="search-trip">Search for Trips</label>
+      <textarea class="form-control" id="searchTrip" aria-describedby="search-trip"
+        placeholder="Ingrese el trip_id"></textarea>
+    </div>
+    <button id="submitSearchTrip" class="btn btn-primary float-right">Submit</button>
+  </form>
+
+  <div id="tableDiv">
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.4.0.min.js"
+    integrity="sha256-BJeo0qm959uMBGb65z40ejJYGSgR7REI4+CW1fNKwOg=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+    crossorigin="anonymous"></script>
+
+  <script src="index.js"></script>
+
+
+  <button type="button" onclick="myFunction()">Ver Mapa</button>
+
+  <div id="visibilidad">
+    <script>
+      document.getElementById("visibilidad").innerHTML = "*******************************";
+    </script>
+  </div>
+  <script>
+    function myFunction() {
+
+      console.log("Estoy logueando");
+
+      // Limpio el div para poner el mapa. Si no, putea.
+      var container = L.DomUtil.get('mapid');
+
+      if (container != null) {
+        container._leaflet_id = null;
+      }
+
+      // document.getElementById("mapid").outerHTML = ""; hago percha el div y no tiene donde meter el mapa
+
+      // $( "#mapid" ).empty(); sigue putendo
+
+      document.getElementById("visibilidad").innerHTML = "(" + primer_evento_lat + "," + primer_evento_lon + ")";
+
+      // var mymap = L.map("mapid").setView([-34.6604802,-58.4674377], 13);
+      var mymap = L.map("mapid").setView([primer_evento_lat, primer_evento_lon], 10);
+
+      L.tileLayer(
+        "https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiY2xhdWRpb2dyYXNzbyIsImEiOiJjazc5ZDlwcXYwM2JiM2dwaWgzNTZ6NXJpIn0.NRB7GBd52t6hrJfY1sygwQ",
+        {
+          attribution:
+            'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+          maxZoom: 18,
+          id: "mapbox/streets-v11",
+          tileSize: 512,
+          zoomOffset: -1,
+          accessToken: "pk.eyJ1IjoiY2xhdWRpb2dyYXNzbyIsImEiOiJjazc5ZDlwcXYwM2JiM2dwaWgzNTZ6NXJpIn0.NRB7GBd52t6hrJfY1sygwQ"
+        }
+      ).addTo(mymap);
+
+      console.log(trip_path_coords);
+
+      L.polyline(trip_path_coords).addTo(mymap);
+
+      var circle = L.circle([primer_evento_lat, primer_evento_lon], {
+        color: 'red',
+        fillColor: '#f03',
+        fillOpacity: 0.5,
+        radius: 100
+      }).addTo(mymap);
+
+    }
+  </script>
+  </div>
+  <div id="mapid" style="height: 360px;"></div>
+
+</body>
+
+</html>
